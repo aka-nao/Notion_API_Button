@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Copier</title>
+<script>
+  async function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+  async function copyTextToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('Text copied to clipboard');
+    } catch (err) {
+      console.log('Error in copying text: ', err);
+    }
+  }
+
+  window.onload = async function() {
+    var text = await getParameterByName('text');
+    if (text) {
+      await copyTextToClipboard(text);
+      open('about:blank', '_self').close();
+    }
+  }
+</script>
+</head>
+<body>
+<div id="message" style="display:none;">
+  Text has been copied to the clipboard. Please close this window.
+</div>
+</body>
+</html>
