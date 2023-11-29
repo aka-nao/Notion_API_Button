@@ -24,7 +24,7 @@
   }
 
   window.onload = async function() {
-    var text = await getParameterByName('text');
+    var text = await getParameterByName('param1');
     if (text) {
       await copyTextToClipboard(text);
       open('about:blank', '_self').close();
